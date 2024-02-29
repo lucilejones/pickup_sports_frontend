@@ -1,5 +1,5 @@
 <div class="event-list-container">
-    @for (event of events; track event.id) {
+    @for(event of events; track event.id) {
         <!-- {{ event.title }} -->
         <app-event [event]="event" />
     }
