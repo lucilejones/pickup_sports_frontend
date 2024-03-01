@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: '../auth.shared.scss'
 })
 export class LoginComponent {
   loginForm: FormGroup = new FormGroup({
@@ -27,8 +27,8 @@ export class LoginComponent {
 
         this.authService.login(username, password).subscribe({
             next: (res:any) => {
-                console.log(res);
-                this.authService.setToken(res.token);
+                // console.log(res);
+                // this.authService.setToken(res.token);
                 this.router.navigate(['/']);
             },
             error: (error:any) => {

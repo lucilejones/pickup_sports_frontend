@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventService } from '../../core/services/event.service';
 import { EventComponent } from '../../shared/components/events/event/event.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Event } from '../../shared/models/event';
 
 @Component({
   selector: 'app-events',
