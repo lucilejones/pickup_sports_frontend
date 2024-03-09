@@ -8,6 +8,7 @@ export class Event {
     start_date_time: string;
     end_date_time: string
     created_at: string;
+    cover_image_url: string;
     sports: Sport[];
     user: User;
 
@@ -18,6 +19,7 @@ export class Event {
         this.start_date_time = event.start_date_time;
         this.end_date_time = event.end_date_time;
         this.created_at = event.created_at;
+        this.cover_image_url = event.cover_image_url;
         this.sports = event.sports;
         this.user = event.user || new User({})
     }
