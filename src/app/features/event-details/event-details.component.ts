@@ -17,6 +17,7 @@ export class EventDetailsComponent implements OnInit {
   event: Event = new Event({});
   currentUser: User = new User({});
   hasJoined: boolean = false;
+  guests: any = [];
 
   constructor(
     private route:ActivatedRoute,
@@ -31,6 +32,7 @@ export class EventDetailsComponent implements OnInit {
           this.event = event;
           this.hasJoined = event.has_joined;
           console.log('get event', this.event);
+          this.prepareGuests();
         },
         error: (error) => {
           console.log(error);
@@ -50,10 +52,34 @@ export class EventDetailsComponent implements OnInit {
     eventJoin$.subscribe({
       next: ()=> {
           this.hasJoined = !this.hasJoined;
+
+          // prepare the guests
+          if(this.currentUser) {
+            if(this.hasJoined){
+                this.event.participants.push(this.currentUser)
+            } else {
+                this.event.participants = this.event.participants.filter((p) => p.id !== this.currentUser?.id)
+            }
+            this.prepareGuests();
+          }
       },
       error: (error)=> {
           console.log(error);
       }
     })
+  }
+
+  prepareGuests() {
+    this.guests = [...this.event.participants];
+
+    const emptySlots = this.event.guests - this.event.participants.length;
+
+    for (let i = 0; i < emptySlots; i++) {
+      this.guests.push({ empty: true });
+    }
+  }
+
+  trackById(index: number, item: any) {
+    return item.id || index;
   }
 }

@@ -4,13 +4,19 @@ import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
 import { switchMap } from 'rxjs';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor(private http:HttpClient, private router:Router, private userService:UserService) { }
+  constructor(
+    private http:HttpClient,
+    private router:Router,
+    private userService:UserService,
+    private notificationService: NotificationService
+    ) { }
 
   login(username:string, password:string){
     return this.http.post<{token:string}>(`${environment.apiUrl}/login`,
@@ -40,6 +46,9 @@ export class AuthenticationService {
   }
 
   logout() {
+    const currentUser = this.userService.currentUserBehaviorSubject.value;
+    // unsubscribe from pusher channel
+    this.notificationService.unsubscribeChannel(currentUser!.id);
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
